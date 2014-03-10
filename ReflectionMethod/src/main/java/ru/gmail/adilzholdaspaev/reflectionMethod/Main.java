@@ -9,8 +9,8 @@ public class Main {
         Matrix m = new Matrix(3, 3);
         Matrix n = new Matrix(3, 3);
 
-        for (int i = 0; i < 3; i++){
-            for (int j = 0; j < 3; j++){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
                 m.setElem(i, j, i * j);
             }
         }
@@ -19,20 +19,18 @@ public class Main {
 
         System.out.println();
 
-        for (int i = 0; i < 3; i++){
-            for (int j = 0; j < 3; j++){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
                 n.setElem(i, j, (i + j) * (j + 1));
             }
         }
         n.print();
 
 
-       n.transposition();
+        n.transposition();
 
         System.out.println();
-        n.print();
-
-
+        System.out.println(n.norma());
 
     }
 }

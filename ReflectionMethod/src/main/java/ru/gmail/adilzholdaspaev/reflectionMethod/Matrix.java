@@ -1,88 +1,93 @@
 package ru.gmail.adilzholdaspaev.reflectionMethod;
 
+import java.lang.Math;
+
 /**
  * Created by Адиль on 03.03.14.
  */
+
+
 public class Matrix {
-    private double[][] matr;
-    private int quantityOfRows;
-    private int quantityOfColumns;
+    private double[][] data;
+
+    private int rowsNumber;
+    private int columnsNumber;
 
     Matrix() {
-        quantityOfRows = quantityOfColumns = 0;
+        rowsNumber = columnsNumber = 0;
     }
 
-    Matrix(final int size) {
-        if (size < 0){
+    Matrix(final int dimension) {
+        if (dimension < 0) {
             System.out.println("Incorrent parametr");
         } //throw(s)
 
-        quantityOfRows = quantityOfColumns = size;
+        rowsNumber = columnsNumber = dimension;
 
-        matr = new double[quantityOfRows][quantityOfColumns];
+        data = new double[rowsNumber][columnsNumber];
     }
 
-    Matrix (final int quantityRow, final int quantityColumn) {
-        if (quantityColumn < 0){
+    Matrix(final int rows, final int columns) {
+        if (columns < 0) {
             System.out.println("Incorrent parametr");
         } //throw(s)
 
-        if (quantityRow < 0){
+        if (rows < 0) {
             System.out.println("Incorrent parametr");
         } //throw(s)
 
-        quantityOfRows = quantityRow;
-        quantityOfColumns = quantityColumn;
+        rowsNumber = rows;
+        columnsNumber = columns;
 
-        matr = new double[quantityOfRows][quantityOfColumns];
+        data = new double[rowsNumber][columnsNumber];
     }
 
-    Matrix( Matrix matrix) {
-        quantityOfRows = matrix.quantityOfRows;
-        quantityOfColumns = matrix.quantityOfColumns;
+    Matrix(Matrix matrix) {
+        rowsNumber = matrix.rowsNumber;
+        columnsNumber = matrix.columnsNumber;
 
-        matr = new double[quantityOfRows][quantityOfColumns];
+        data = new double[rowsNumber][columnsNumber];
 
-        for (int i = 0; i < quantityOfRows; i++) {
-            for (int j = 0; j < quantityOfColumns; j++){
-                matr[i][j] = matrix.matr[i][j];
+        for (int i = 0; i < rowsNumber; i++) {
+            for (int j = 0; j < columnsNumber; j++) {
+                data[i][j] = matrix.data[i][j];
             }
         }
     }
 
     public void setElem(final int row, final int column, final double element) {
-        if (row < 0 || row >= quantityOfRows) {
+        if (row < 0 || row >= rowsNumber) {
             System.out.println("Incorrent parametr of row");
         }
-        if (column < 0 || column >= quantityOfColumns) {
+        if (column < 0 || column >= columnsNumber) {
             System.out.println("Incorrent parametr of column");
         }
 
-        matr[row][column] = element;
+        data[row][column] = element;
 
     }
 
     public double getElem(final int row, final int column) {
-        if (row < 0 || row >= quantityOfRows) {
+        if (row < 0 || row >= rowsNumber) {
             System.out.println("Incorrent parametr of row");
         }
-        if (column < 0 || column >= quantityOfColumns) {
+        if (column < 0 || column >= columnsNumber) {
             System.out.println("Incorrent parametr of column");
         }
 
-        return matr[row][column];
+        return data[row][column];
     }
 
     public Matrix addtition(final Matrix matrix) {
-        if (quantityOfRows != matrix.quantityOfRows || quantityOfColumns != matrix.quantityOfColumns){
+        if (rowsNumber != matrix.rowsNumber || columnsNumber != matrix.columnsNumber) {
             System.out.println("The parametrs is not equal!");
         }
 
-        Matrix newMatr = new Matrix(quantityOfRows, quantityOfColumns);
+        Matrix newMatr = new Matrix(rowsNumber, columnsNumber);
 
-        for (int i = 0; i < quantityOfRows; i++) {
-            for (int j = 0; j < quantityOfColumns; j++){
-                newMatr.matr[i][j] = matr[i][j] + matrix.matr[i][j];
+        for (int i = 0; i < rowsNumber; i++) {
+            for (int j = 0; j < columnsNumber; j++) {
+                newMatr.data[i][j] = data[i][j] + matrix.data[i][j];
             }
         }
 
@@ -90,15 +95,15 @@ public class Matrix {
     }
 
     public Matrix subtraction(final Matrix matrix) {
-        if (quantityOfRows != matrix.quantityOfRows || quantityOfColumns != matrix.quantityOfColumns){
+        if (rowsNumber != matrix.rowsNumber || columnsNumber != matrix.columnsNumber) {
             System.out.println("The parametrs is not equal!");
         }
 
-        Matrix newMatr = new Matrix(quantityOfRows, quantityOfColumns);
+        Matrix newMatr = new Matrix(rowsNumber, columnsNumber);
 
-        for (int i = 0; i < quantityOfRows; i++) {
-            for (int j = 0; j < quantityOfColumns; j++){
-                newMatr.matr[i][j] = matr[i][j] - matrix.matr[i][j];
+        for (int i = 0; i < rowsNumber; i++) {
+            for (int j = 0; j < columnsNumber; j++) {
+                newMatr.data[i][j] = data[i][j] - matrix.data[i][j];
             }
         }
 
@@ -106,51 +111,90 @@ public class Matrix {
     }
 
     public Matrix multiplication(final Matrix matrix) {
-        if (quantityOfColumns != matrix.quantityOfRows) {
+        if (columnsNumber != matrix.rowsNumber) {
             System.out.println("The parametrs is not equal!");
         }
 
-        Matrix newMatr = new Matrix(quantityOfRows, quantityOfColumns);
+        Matrix newMatr = new Matrix(rowsNumber, matrix.columnsNumber);
 
-        for (int i = 0; i < quantityOfRows; i++){
-            for (int j = 0; j < matrix.quantityOfColumns; j++){
+        for (int i = 0; i < rowsNumber; i++) {
+            for (int j = 0; j < matrix.columnsNumber; j++) {
 
-                for (int k = 0; k < quantityOfColumns; k++){
-                    newMatr.matr[i][j] += ( matr[i][k] * matrix.matr[k][j] );
+                for (int k = 0; k < columnsNumber; k++) {
+                    newMatr.data[i][j] += (data[i][k] * matrix.data[k][j]);
                 }
-
             }
         }
 
         return newMatr;
     }
 
-    public void transposition() {
-        for (int i = 0; i < quantityOfRows; i++){
-            for (int j = i + 1; j < quantityOfColumns; j++){
-                swapElement(i, j);
+    public Matrix multiplyToNumber(final double number) {
+        Matrix matrix = new Matrix(rowsNumber, columnsNumber);
+
+        for (int i = 0; i < rowsNumber; i++) {
+            for (int j = 0; j < columnsNumber; j++) {
+                matrix.data[i][j] = number * data[i][j];
             }
         }
+
+        return matrix;
     }
 
-    private void swapElement(final int i, final int j) {
-        double temp;
+    public Matrix transposition() {
+        Matrix matr = new Matrix(columnsNumber, rowsNumber);
 
-        temp = matr[i][j];
-        matr[i][j] = matr[j][i];
-        matr[j][i] = temp;
+        double temp;
+        for (int i = 0; i < rowsNumber; i++) {
+            for (int j = 0; j < columnsNumber; j++) {
+                matr.data[j][i] = data[i][j];
+            }
+        }
+
+        return matr;
+    }
+
+    public double norma() {
+        double result = 1e-10;
+
+        for (int i = 0; i < rowsNumber; i++) {
+
+            double temp = 0;
+            for (int j = 0; j < columnsNumber; j++) {
+                temp += Math.abs(data[i][j]);
+            }
+
+            if (temp > result) {
+                result = temp;
+            }
+
+        }
+
+        return result;
+    }
+
+    public Matrix getVector(final int j) {
+        if (j < 0 || j >= columnsNumber) {
+            System.out.println("Incorrect parametr");
+        }
+
+        Matrix vector = new Matrix(rowsNumber, 1);
+
+        for (int i = 0; i < rowsNumber; i++) {
+            vector.data[i][j] = data[i][j];
+        }
+
+        return vector;
     }
 
     public void print() {
-        for (int i = 0; i < quantityOfRows; i++) {
-            for (int j = 0; j < quantityOfColumns; j++){
-               System.out.print(matr[i][j] + " ");
+        for (int i = 0; i < rowsNumber; i++) {
+            for (int j = 0; j < columnsNumber; j++) {
+                System.out.print(data[i][j] + " ");
             }
             System.out.println();
         }
     }
-
-
 
 
 }
