@@ -1,11 +1,8 @@
 package ru.gmail.adilzholdaspaev.reflectionMethod;
 
-import java.lang.Math;
-
 /**
  * Created by Адиль on 03.03.14.
  */
-
 
 public class Matrix {
     private double[][] data;
@@ -22,24 +19,27 @@ public class Matrix {
             System.out.println("Incorrent parametr");
         } //throw(s)
 
-        rowsNumber = columnsNumber = dimension;
+        try {
 
-        data = new double[rowsNumber][columnsNumber];
+            rowsNumber = columnsNumber = dimension;
+            data = new double[rowsNumber][columnsNumber];
+
+        } catch (NegativeArraySizeException e) {
+            rowsNumber = columnsNumber = 0;
+            throw e;
+        }
     }
 
     Matrix(final int rows, final int columns) {
-        if (columns < 0) {
-            System.out.println("Incorrent parametr");
-        } //throw(s)
+        try {
+            rowsNumber = rows;
+            columnsNumber = columns;
 
-        if (rows < 0) {
-            System.out.println("Incorrent parametr");
-        } //throw(s)
-
-        rowsNumber = rows;
-        columnsNumber = columns;
-
-        data = new double[rowsNumber][columnsNumber];
+            data = new double[rowsNumber][columnsNumber];
+        } catch (NegativeArraySizeException e) {
+            rowsNumber = columnsNumber = 0;
+            throw e;
+        }
     }
 
     Matrix(Matrix matrix) {
@@ -56,26 +56,20 @@ public class Matrix {
     }
 
     public void setElem(final int row, final int column, final double element) {
-        if (row < 0 || row >= rowsNumber) {
-            System.out.println("Incorrent parametr of row");
+        try {
+            data[row][column] = element;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw e;
         }
-        if (column < 0 || column >= columnsNumber) {
-            System.out.println("Incorrent parametr of column");
-        }
-
-        data[row][column] = element;
-
     }
 
     public double getElem(final int row, final int column) {
-        if (row < 0 || row >= rowsNumber) {
-            System.out.println("Incorrent parametr of row");
+        try {
+            double element =  data[row][column];
+            return element;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw e;
         }
-        if (column < 0 || column >= columnsNumber) {
-            System.out.println("Incorrent parametr of column");
-        }
-
-        return data[row][column];
     }
 
     public Matrix addtition(final Matrix matrix) {
@@ -185,6 +179,14 @@ public class Matrix {
         }
 
         return vector;
+    }
+
+    public int getRowsNumber() {
+        return rowsNumber;
+    }
+
+    public int getColumnsNumber() {
+        return columnsNumber;
     }
 
     public void print() {
