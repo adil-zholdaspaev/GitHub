@@ -6,45 +6,55 @@ package ru.gmail.adilzholdaspaev.reflectionMethod;
 public class Main {
     public static void main(String args[]) {
 
-        Matrix m = new Matrix(3, 3);
-        m.setElem(0, 0, 1);
-        m.setElem(0, 1, 4);
-        m.setElem(0, 2, 3);
+        double matrix[][] = new double[3][3];
 
-        m.setElem(1, 0, 8);
-        m.setElem(1, 1, 0);
-        m.setElem(1, 2, 1);
+        matrix[0][0] = 1;
+        matrix[0][1] = 4;
+        matrix[0][2] = 3;
+        matrix[1][0] = 8;
+        matrix[1][1] = 0;
+        matrix[1][2] = 1;
+        matrix[2][0] = 1;
+        matrix[2][1] = 2;
+        matrix[2][2] = 1;
 
-        m.setElem(2, 0, 1);
-        m.setElem(2, 1, 2);
-        m.setElem(2, 2, 1);
+    }
 
-        m.print();
+    public double[][] reflectionMethod(double [][] matrix) {
+        int n = matrix[0].length;
 
-        Matrix a = new Matrix(3, 1);
-        a.setElem(0, 0, 1);
-        a.setElem(1, 0, 4);
-        a.setElem(2, 0, 3);
+        for (int k = 0; k < n; k++) {
+            double vector[] = getVector(matrix, k);
+            double s = getColumnTotal(vector, k);
+            double normA = getNormOfVectorK(vector[k], s);
 
-        a.print();
 
-        Matrix b = new Matrix(1, 3);
-        b.setElem(0, 0, 2);
-        b.setElem(0, 1, 3);
-        b.setElem(0, 2, 6);
 
-        b.print();
+        }
+    }
 
-        Matrix res = a.multiplication(b);
+    public double getColumnTotal(final double [] vector, final int k) {
+        int n = vector.length;
 
-        res.print();
+        double result = 0;
+        for (int j = k + 1; j < n; j++) {
+            result += vector[j];
+        }
+        return result;
+    }
 
-        System.out.println();
+    public double getNormOfVectorK(final double element, final double s) {
+        double result = Math.sqrt( element * element + s);
+        return result;
+    }
 
-        ReflectionMethod reflection = new ReflectionMethod(m, m);
+    public double[] getVector(final double matrix[][], final int k) {
+        int n = matrix.length;
+        double vector[] = new double[n - k];
 
-        Matrix matr =  reflection.getUpperTriangularMatrix();
-
-        matr.print();
+        for (int j = k; k < n; j++) {
+            vector[j - k] = matrix[j][k];
+        }
+        return vector;
     }
 }
