@@ -9,15 +9,15 @@ public class Main {
 
         double matrix[][] = new double[3][3];
 
-        matrix[0][0] = 3.;
-        matrix[0][1] = 2.;
-        matrix[0][2] = 1.;
-        matrix[1][0] = 2.;
-        matrix[1][1] = 2.;
-        matrix[1][2] = 1.;
-        matrix[2][0] = 1.;
-        matrix[2][1] = 1.;
-        matrix[2][2] = 1.0;
+        matrix[0][0] = 3;
+        matrix[0][1] = 2;
+        matrix[0][2] = 1;
+        matrix[1][0] = 2;
+        matrix[1][1] = 2;
+        matrix[1][2] = 1;
+        matrix[2][0] = 1;
+        matrix[2][1] = 1;
+        matrix[2][2] = 1;
 
         /*double matrix[][] = new double[4][4];
 
@@ -40,73 +40,11 @@ public class Main {
         Main example = new Main();
         double[][] matr = example.reflectionMethod(matrix);
 
-        /*Main ex = new Main();
-        ex.multiple();*/
 
     }
-
-    public void multiple() {
-        int n = 3;
-
-        double u[][] = new double[n][n];
-        double x[][] = new double[n][n];
-
-        u[0][0] = -0.80177144;
-        u[0][1] = -0.534518;
-        u[0][2] = -0.26726;
-        u[1][0] = -0.534518;
-        u[1][1] = 0.8571454;
-        u[1][2] = -0.077926;
-        u[2][0] = -0.26726;
-        u[2][1] = -0.077926;
-        u[2][2] = 0.960358;
-
-        x[0][0] = 3;
-        x[0][1] = 2;
-        x[0][2] = 1;
-        x[1][0] = 2;
-        x[1][1] = 2;
-        x[1][2] = 1;
-        x[2][0] = 1;
-        x[2][1] = 1;
-        x[2][2] = 1;
-
-
-
-        double res[][] = new double[n][n];
-
-        for (int i = 0; i < n; i++) {
-
-            for (int j = 0; j < n; j++) {
-
-                for (int k = 0; k < n; k++) {
-
-                    res[i][j] += ( u[i][k] * x[k][j] );
-
-                }
-
-            }
-
-        }
-
-        for (int i = 0; i < n; i++) {
-
-            for (int j = 0; j < n; j++) {
-
-                System.out.print( res[i][j] + " " );
-
-            }
-
-            System.out.println();
-
-        }
-
-
-    }
-
 
     public double[][] reflectionMethod(double [][] matrix) {
-        int n = matrix[0].length;
+        int n = matrix.length;
 
        // double vector[] = getVector(matrix, 0);
 
@@ -119,11 +57,11 @@ public class Main {
             double normA = getNormOfVector(vector[0], s);
 
             if (vector[0] <= 0) {
-
                 vector[0] -= normA;
             } else {
                 vector[0] += normA;
             }
+
             double normX = getNormOfVector(vector[0], s);
 
             int m = vector.length;
@@ -134,28 +72,30 @@ public class Main {
             printMatrix(matrix);
             System.out.println();
 
-
             for (int j = k; j < n; j++) {
 
-                double tempVector[] = new double[m];
-                for (int p = k; p < n; p++) {
+                double temp = 0;
 
-                    double [] vectorOfProduct = getVectorOfTransformationMatrix(vector, p - k);
+                for (int t = k; t < n; t++) {
 
-                    for (int i = k; i < n; i++) {
-                        tempVector[p - k] += vectorOfProduct[i - k] * matrix[i][j];
-                    }
+                    temp += ( vector[t - k] * matrix[t][j] );
 
                 }
+
+                temp += temp;
 
                 for (int i = k; i < n; i++) {
-                    matrix[i][j] = tempVector[i - k];
+
+                    matrix[i][j] -= ( temp * vector[i - k] );
+
                 }
 
-                printMatrix(matrix);
-                System.out.println();
-
             }
+
+            printMatrix(matrix);
+            System.out.println();
+
+
 
             vectorOfDiagonalMatrixElements[k] = matrix[k][k];
 
@@ -163,6 +103,7 @@ public class Main {
                 matrix[i][k] = vector[i - k];
             }
 
+            System.out.println("Vector");
             printMatrix(matrix);
             System.out.println();
 
@@ -219,32 +160,47 @@ public class Main {
         //необходимо сделать преобразования
 
 
+        for (int k = n - 2; k >= 0; k--) {
 
-        for (int j = n - 2; j >= 0; j--) {
+            double w[] = new double[n - k];
 
-            double vectorOfTransformation[] = new double[ n - j ];
-            vectorOfTransformation[0] = vectorOfDiagonalMatrixElements[j];
-            for (int i = 1; i < n - j; i++) {
+            w[0] = vectorOfDiagonalMatrixElements[k];
+            for (int i = k + 1; i < n; i++) {
+                w[i - k] = matrix[i][k];
 
-                vectorOfTransformation[i] = matrix[i + j][j];
-                matrix[i + j][j] = 0;
+                matrix[i][k] = 0;
+
             }
+
+            printMatrix(matrix);
+            System.out.println();
 
             for (int i = 0; i < n; i++) {
 
-                double elem = 0;
+                double temp = 0;
 
-                for (int p = 0; p < n - j; p++) {
+                for (int t = k; t < n; t++) {
 
-                    elem += ( matrix[i][j + p] * vectorOfTransformation[p] );
+                    temp += (matrix[i][t] * w[t - k]);
 
                 }
 
-                matrix[i][j] = elem;
+                temp += temp;
+
+                for (int j = k; j < n; j++) {
+
+                    matrix[i][j] -= (w[j - k] * temp);
+
+                }
 
             }
 
+            printMatrix(matrix);
+            System.out.println();
+
         }
+
+
 
 
         printMatrix(matrix);
