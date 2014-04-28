@@ -28,7 +28,7 @@ public class Tester
     public double[][]  T_Reverse;
     public double[][]  J;
     public final int   N = 100;
-    public boolean     flag = true;   // простая структура или с жорд клеткой
+    public boolean     flag = false;   // простая структура или с жорд клеткой
     //true - Jordan
     public double      numberOfConditionality;
     public double      relativeNormZ;
@@ -57,7 +57,7 @@ public class Tester
         J[0][1] = -(1 / (J[0][0] * J[1][1]));
 
     Methods m = new Methods();
-    J = m.reflectionMethod(J);
+    J = m.reflectionMethodWithReplacement(J);
 
     Mult_For_Generate_A(T, J);
     Mult_For_Generate_A(T, T_Reverse);
@@ -86,7 +86,7 @@ public class Tester
     for (int i = 0; i < N; i++)
     {
         double x = ((double)i / (N - 1));
-        double r = Math.pow( -1.0, rand.nextInt(5));
+        double r = Math.pow( -1.0, rand.nextInt(3));
         J[i][i] = r * ((1 - x) * L + x * B);
         if (!z)
         {
@@ -284,7 +284,7 @@ public class Tester
 
 
         E                       = Generate_E();
-        A                       = Generate_A(0.0000000001, 1);
+        A                       = Generate_A(0.0000000001, 1.0);
         double[][] A1           = Copy(A);
 
         norm_A                  = getNormOfMatrix(A);
@@ -292,7 +292,7 @@ public class Tester
         A_Reverse_Accurate      = Generate_A_Reverse_Accurate(J, T1, T_Reverse);
         norm_A_Reverse          = getNormOfMatrix(A_Reverse_Accurate);
 
-        A_Reverse_Approximate   = m.reflectionMethod(A1);
+        A_Reverse_Approximate   = m.reflectionMethodWithReplacement(A1);
         norm_Z                  = getNormOfMatrix(Error_Z(A_Reverse_Accurate, A_Reverse_Approximate));
         norm_Residual           = getNormOfMatrix(Residual_method(A_Reverse_Approximate, A));
 

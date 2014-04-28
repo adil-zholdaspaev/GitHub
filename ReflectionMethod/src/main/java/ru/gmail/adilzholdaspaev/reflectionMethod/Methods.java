@@ -93,7 +93,6 @@ public class Methods {
             }
         }
 
-
         //необходимо сделать преобразования
 
         double w[];
@@ -125,10 +124,6 @@ public class Methods {
 
         }
 
-
-        /*printMatrix(matrix);
-        System.out.println();*/
-
         return matrix;
     }
 
@@ -139,7 +134,6 @@ public class Methods {
 
         int vectorOfReplacement[] = new int[n - 1];
         double vectorOfLength[] = new double[n];
-        int nRep = 0;
 
         double vector[];
         double s;
@@ -154,7 +148,6 @@ public class Methods {
 
             }
         }
-
 
         int nReplacement = 0;
 
@@ -172,7 +165,6 @@ public class Methods {
                     lengthOfCurrentVector = vectorOfLength[i];
 
                     nReplacement = i;
-
                 }
 
             }
@@ -195,14 +187,9 @@ public class Methods {
 
             }
 
-           /* printMatrix(matrix);
-            System.out.println();*/
-
             for (int j = k + 1; j < n; j++) {
                 vectorOfLength[j] -= ( matrix[k][j] * matrix[k][j] );
             }
-
-            //
 
             vector = getVector(matrix, k);
 
@@ -266,14 +253,11 @@ public class Methods {
 
         }
 
-
-
         for (int k = 0; k < n; k++) {
 
             matrix[k][k] = 1 / matrix[k][k];
 
         }
-
 
         for (int i = n - 1; i >= 0; i--) {
 
@@ -281,7 +265,6 @@ public class Methods {
             for (int j = 0; j < n - i; j++) {
                 vector[j] = matrix[i][j + i];
             }
-
 
             for (int j = i + 1; j < n; j++) {
 
@@ -310,8 +293,6 @@ public class Methods {
 
             }
 
-
-
             double temp = 0;
             for (int i = 0; i < n; i++) {
 
@@ -326,21 +307,16 @@ public class Methods {
                 temp += temp;
 
                 for (int j = k; j < n; j++) {
-
                     matrix[i][j] -= (w[j - k] * temp);
-
                 }
 
             }
 
         }
 
-
         for (int i = n - 2; i >= 0; i--) {
 
-
             if (vectorOfReplacement[i] != 0) {
-
 
                 double temp = 0;
                 nReplacement = vectorOfReplacement[i];
@@ -351,21 +327,9 @@ public class Methods {
                     temp = matrix[nReplacement][j];
                     matrix[nReplacement][j] = matrix[i][j];
                     matrix[i][j] = temp;
-
                 }
-
-
             }
-
-            /*printMatrix(matrix);
-            System.out.println();*/
-
         }
-
-
-
-        printMatrix(matrix);
-        System.out.println();
 
         return matrix;
     }
