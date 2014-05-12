@@ -31,15 +31,18 @@ public class main {
         B[1] = 2;
         B[2] = 3;
 
+        FredholmIntegralEquationSecondType fi = new FredholmIntegralEquationSecondType();
 
-        double epsilon = 0.01;
+        fi.decide();
+
+        /*double epsilon = 0.01;
 
         double[] xSolution = M.getSolution(A, B, epsilon);
 
         for (int i = 0; i < n; i++) {
             System.out.print(xSolution[i] + " ");
         }
-        System.out.println();
+        System.out.println();*/
 
     }
 

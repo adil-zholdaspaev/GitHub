@@ -10,20 +10,19 @@ public class GaussSeidelMethod {
 
         double[] xSolution = new double[n];
 
-        double[][] alphaMatrix = new double[n][n];
-
-
+        double alpha = 0;
+        double normAlpha = 0;
         for (int i = 0; i < n; i++) {
 
             for (int j = 0; j < n; j++) {
 
-                alphaMatrix[i][j] = (i != j) ? -A[i][j] / A[i][i] : 0;
+                alpha = (i != j) ? -A[i][j] / A[i][i] : 0;
+                normAlpha += Math.pow(alpha, 2);
 
             }
 
         }
-
-        double normAlpha = getNormMatrix(alphaMatrix);
+        normAlpha = Math.sqrt(normAlpha);
 
         epsilon *= (1 - normAlpha) / normAlpha;
 
@@ -46,12 +45,6 @@ public class GaussSeidelMethod {
                 xSolution[i] = (B[i] - temp) / A[i][i];
 
             }
-
-            for (int i = 0; i < n; i++) {
-                System.out.print(xSolution[i] + " ");
-            }
-            System.out.println();
-
 
             if ( ( getNormVector(getVectorResidual(xSolution, xOldSolution)) - epsilon ) < 0 ) {
 
