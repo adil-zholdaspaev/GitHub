@@ -4,7 +4,8 @@ package ru.gmail.adilzholdaspaev.fredholm.integral.equation;
  * Created by Адиль on 06.05.14.
  */
 public class GaussSeidelMethod {
-
+    // проверка на строгое диагональное преобладание
+    // действие
     double[] getSolution(double[][] A, double[] B, double epsilon) {
         int n = B.length;
 
@@ -22,6 +23,7 @@ public class GaussSeidelMethod {
             }
 
         }
+
         normAlpha = Math.sqrt(normAlpha);
 
         epsilon *= (1 - normAlpha) / normAlpha;

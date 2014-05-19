@@ -15,7 +15,7 @@ public class FredholmIntegralEquationSecondType {
 
     public void decide() {
 
-        for (int n = 50; n <= 500; n += 50) {
+        for (int n = 10; n <= 50; n += 10) {
 
             double[][] A = new double[n + 1][n + 1];
             double[] f = new double[n + 1];
@@ -23,7 +23,7 @@ public class FredholmIntegralEquationSecondType {
             h = (a - b) / n;
 
             for (int i = 0; i <= n; i++) {
-                f[i] = getFunctionValue();
+                f[i] = getFunctionValue(getArgumentValue(i));
             }
 
             for (int i = 0; i <= n; i++) {
@@ -32,7 +32,11 @@ public class FredholmIntegralEquationSecondType {
 
                     A[i][j] = -h * lambda * getKerValue(getArgumentValue(i), getArgumentValue(j));
 
-                    if ( ( j == 0 ) || ( j == n ) ) {
+                    if (i == j) {
+                        A[i][j]++;
+                    }
+
+                    if ((j == 0) || (j == n)) {
                         A[i][j] /= 2;
                     }
 
@@ -52,12 +56,12 @@ public class FredholmIntegralEquationSecondType {
                 System.out.print(solution[i] + " ");
             }
             System.out.println();
-
+            System.out.println();
         }
 
     }
 
-    private double getFunctionValue() {
+    private double getFunctionValue(final double x) {
         return 1;
     }
 
