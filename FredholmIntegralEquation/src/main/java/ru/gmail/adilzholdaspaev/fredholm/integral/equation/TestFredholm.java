@@ -10,8 +10,8 @@ public class TestFredholm {
         double a = 0;
         double b = 1;
 
-        double lambda = 0.5;
-        double epsilon = 1e-5;
+        double lambda = 1;
+        double epsilon = 1e-8;
 
         int n = 100;
 
@@ -21,23 +21,17 @@ public class TestFredholm {
 
         for (int i = 0; i <= n; i++) {
             exactSolution[i] = fe.getSolutionValue(fe.getArgumentValue(i), lambda);
-            System.out.print(exactSolution[i] + " ");
         }
-        System.out.println();
-
-        System.out.println();
 
         double[] solution = fe.decideIteration(n, 1);
 
-        System.out.println();
-
         double temp = normVector(vectorResidual(exactSolution, solution));
 
-        System.out.println(temp);
+        //System.out.println(temp);
 
         double normApproximate = normVector(solution);
 
-        System.out.println(temp / normApproximate);
+        System.out.println("Относительная ошибка: " + temp / normApproximate);
 
     }
 

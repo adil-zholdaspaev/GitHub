@@ -31,54 +31,6 @@ public class FredholmIntegralEquationSecondType {
 
     }
 
-    public void decide() {
-
-        for (int n = 10; n <= 50; n += 10) {
-
-            double[][] A = new double[n + 1][n + 1];
-            double[] f = new double[n + 1];
-
-            h = (a - b) / n;
-
-            for (int i = 0; i <= n; i++) {
-                //f[i] = getFunctionValue(getArgumentValue(i));
-            }
-
-            for (int i = 0; i <= n; i++) {
-
-                for (int j = 0; j <= n; j++) {
-
-                    A[i][j] = -h * lambda * getKerValue(getArgumentValue(i), getArgumentValue(j));
-
-                    if (i == j) {
-                        A[i][j]++;
-                    }
-
-                    if ((j == 0) || (j == n)) {
-                        A[i][j] /= 2;
-                    }
-
-                    if (i == j) {
-                        A[i][j]++;
-                    }
-
-                }
-
-            }
-
-            GaussSeidelMethod gsm = new GaussSeidelMethod();
-
-            double[] solution = gsm.getSolution(A, f, epsilon);
-
-            for (int i = 0; i < n; i++) {
-                System.out.print(solution[i] + " ");
-            }
-
-            System.out.println();
-            System.out.println();
-        }
-
-    }
 
     public double[] decideIteration(final int n, final double x) {
 
@@ -90,42 +42,34 @@ public class FredholmIntegralEquationSecondType {
             f[i] = getFunctionValue(getArgumentValue(i));
         }
 
-            for (int i = 0; i < n + 1; i++) {
+        for (int i = 0; i < n + 1; i++) {
 
-                for (int j = 0; j < n + 1; j++) {
+            for (int j = 0; j < n + 1; j++) {
 
-                    double c = 1;
+                double c = 1;
                     /*if( j % 2 == 0 ) c = 2;
                     if( (j == 0) || (j == n) )  c = 1;*/
 
-                    if ((j == 0) || (j == n )) {
-                        c /= 2;
-                    }
+                if ((j == 0) || (j == n)) {
+                    c /= 2;
+                }
 
-                    A[i][j] = -hk * getKerValue(getArgumentValue(i), getArgumentValue(j)) * c;
+                A[i][j] = -hk * getKerValue(getArgumentValue(i), getArgumentValue(j)) * c;
 
-
-
-                    if (i == j) {
-                        A[i][j]++;
-                    }
-
+                if (i == j) {
+                    A[i][j]++;
                 }
 
             }
 
-            GaussSeidelMethod gsm = new GaussSeidelMethod();
+        }
 
-            double[] solution = gsm.getSolution(A, f, epsilon);
+        GaussSeidelMethod gsm = new GaussSeidelMethod();
 
-            for (int i = 0; i <= n; i++) {
+        double[] solution = gsm.getSolution(A, f, epsilon);
 
-                System.out.print(solution[i] + " ");
-            }
 
-        System.out.println();
-
-        System.out.println(gsm.getQuantityIterations());
+        System.out.println("Кол-во итераций: " + gsm.getQuantityIterations());
 
         return solution;
 
@@ -133,7 +77,7 @@ public class FredholmIntegralEquationSecondType {
 
 
     public double getKerValue(final double x, final double t) {
-        return 1;
+        return (x - 1);
     }
 
     public double getArgumentValue(final double index) {
@@ -141,12 +85,12 @@ public class FredholmIntegralEquationSecondType {
     }
 
     public double getSolutionValue(final double x, final double lambda) {
-        double temp = ( Math.sin( Math.PI * x ) + 2/Math.PI );
+        double temp = ( lambda / (2 + lambda) ) * ( x - 1 ) + x;//1 + 2 * Math.sin(x);//Math.exp(-x) + x;//(Math.sin(Math.PI * x) + 2 / Math.PI);
         return temp;
     }
 
     public double getFunctionValue(final double x) {
-        return Math.sin(Math.PI * x);
+        return x;
     }
 
     public double[] getVectorFunctionValue(final double[] y, final int n) {
@@ -166,7 +110,7 @@ public class FredholmIntegralEquationSecondType {
                     A[i][j]++;
                 }
 
-                if ((j == 0) || (j == ( n - 1 ) )) {
+                if ((j == 0) || (j == (n - 1))) {
                     A[i][j] /= 2;
                 }
 
@@ -191,7 +135,6 @@ public class FredholmIntegralEquationSecondType {
         return f;
 
     }
-
 
 
 }
