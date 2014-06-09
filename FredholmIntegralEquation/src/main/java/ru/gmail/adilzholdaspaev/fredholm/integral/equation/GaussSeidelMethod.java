@@ -6,7 +6,10 @@ package ru.gmail.adilzholdaspaev.fredholm.integral.equation;
 public class GaussSeidelMethod {
     // проверка на строгое диагональное преобладание
     // действие
-    double[] getSolution(double[][] A, double[] B, double epsilon) {
+
+    private int nIterations;
+
+    public double[] getSolution(double[][] A, double[] B, double epsilon) {
         int n = B.length;
 
         double[] xSolution = new double[n];
@@ -17,7 +20,7 @@ public class GaussSeidelMethod {
 
             for (int j = 0; j < n; j++) {
 
-                alpha = (i != j) ? -A[i][j] / A[i][i] : 0;
+                alpha = (i != j) ? (-A[i][j] / A[i][i]) : 0;
                 normAlpha += Math.pow(alpha, 2);
 
             }
@@ -28,9 +31,11 @@ public class GaussSeidelMethod {
 
         epsilon *= (1 - normAlpha) / normAlpha;
 
+        epsilon = Math.abs(epsilon);
+
         double[] xOldSolution = new double[n];
 
-        for (int k = 0; ; k++) {
+        for (nIterations = 0; nIterations < 100000; nIterations++) {
 
             for (int i = 0; i < n; i++) {
 
@@ -48,7 +53,7 @@ public class GaussSeidelMethod {
 
             }
 
-            if ( ( getNormVector(getVectorResidual(xSolution, xOldSolution)) - epsilon ) < 0 ) {
+            if (getNormVector( getVectorResidual(xSolution, xOldSolution) ) < epsilon ) {
 
                 return xSolution;
 
@@ -56,9 +61,11 @@ public class GaussSeidelMethod {
 
         }
 
+        return xSolution;
+
     }
 
-    double getNormMatrix(final double[][] matrix) {
+    public double getNormMatrix(final double[][] matrix) {
 
         int n = matrix.length;
 
@@ -80,7 +87,7 @@ public class GaussSeidelMethod {
 
     }
 
-    double getNormVector(double[] vector) {
+    public double getNormVector(double[] vector) {
 
         int n = vector.length;
         double result = 0;
@@ -97,7 +104,7 @@ public class GaussSeidelMethod {
 
     }
 
-    double[] getVectorResidual(double[] vector1, double[] vector2) {
+    public double[] getVectorResidual(double[] vector1, double[] vector2) {
 
         int n = vector1.length;
         double[] result = new double[n];
@@ -110,6 +117,11 @@ public class GaussSeidelMethod {
 
         return result;
 
+    }
+
+    public int getQuantityIterations() {
+
+        return nIterations;
     }
 
 }

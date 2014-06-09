@@ -213,21 +213,6 @@ public class Tester {
         }
         return norm;
 
-
-        /*double result = 0;
-        double temp = 0;
-
-        for (int i = 0; i < n; i++) {
-            temp = 0;
-
-            for (int j = 0; j < n; j++) {
-                temp += Math.abs(matrix[i][j]);
-            }
-
-            result = Math.max(result, temp);
-        }
-
-        return result;*/
     }
 
     public void Test() {
